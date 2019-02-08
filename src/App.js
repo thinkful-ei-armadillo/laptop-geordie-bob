@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import ElfHeader from './ElfHeader'
 import SpecList from './SpecList';
+import Subtotal from './Subtotal';
 
 class App extends Component {
   
@@ -29,41 +30,26 @@ class App extends Component {
     }
   }
 
+  updateFeature(feature, newValue) {
+    const selected = Object.assign({}, this.state.selected);
+    selected[feature] = newValue;
+    this.setState({
+      selected,
+    });
+  }
+
   render() {
-    //subtotal list -- render function
-    const summary = Object.keys(this.state.selected)
-          .map(key => <div className="summary__option" key={key}>
-            <div className="summary__option__label">{key}  </div>
-            <div className="summary__option__value">{this.state.selected[key].name}</div>
-            <div className="summary__option__cost">
-              { new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'})
-                  .format(this.state.selected[key].cost) }
-            </div>
-        </div>)
-
-//move to Total component
     const total = Object.keys(this.state.selected)
-          .reduce((acc, curr) => acc + this.state.selected[curr].cost, 0);    
-
-         
+      .reduce((acc, curr) => acc + this.state.selected[curr].cost, 0);
+    console.log(total);
     return (
       <div className="App">
         <ElfHeader />
 
         <main>
-          <SpecList features ={this.props.features} state = {this.state} />
+          <SpecList features ={this.props.features} state = {this.state} updateFeature = {(feature, newValue) => this.updateFeature(feature, newValue)}/>
           {/* move over to subtotal list */}
-          <section className="main__summary">
-            <h3>NEW GREENLEAF 2018</h3>
-            {summary}
-            <div className="summary__total">
-              <div className="summary__total__label">Your Price: </div>
-              <div className="summary__total__value">
-              { new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'})
-                  .format(total) }
-              </div>
-            </div>
-          </section>
+          <Subtotal state={this.state} total={total} />
 
         </main>
       </div>

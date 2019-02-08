@@ -1,18 +1,7 @@
 import React, {Component} from 'react'
-import App from './App'
+// import App from './App'
 class SpecList extends Component {
-  
- 
-  
-  updateFeature(feature, newValue) {
-    console.log()
-    const selected = Object.assign({}, this.props.state.selected);
-    selected[feature] = newValue;
-    this.setState({
-      selected
-    });
-  }
-  
+
   render() {
 
     const features = Object.keys(this.props.features)
@@ -23,7 +12,7 @@ class SpecList extends Component {
           return <li key={index} className="feature__item">
             <div className={featureClass}
 
-              onClick={e => this.updateFeature(key, item)}>
+              onClick={e => this.props.updateFeature(key, item)}>
               {item.name}
               ({new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
                 .format(item.cost)})

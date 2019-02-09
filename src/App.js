@@ -8,6 +8,7 @@ class App extends Component {
   
   constructor(props) {
     super(props);
+    
     this.state = {
       selected: {
         Processor: {
@@ -47,9 +48,10 @@ class App extends Component {
         <ElfHeader />
 
         <main>
-          <SpecList features ={this.props.features} state = {this.state} updateFeature = {(feature, newValue) => this.updateFeature(feature, newValue)}/>
-          {/* move over to subtotal list */}
-          <Subtotal state={this.state} total={total} />
+          
+          <SpecList features ={this.props.features} selected = {this.state.selected} updateFeature = {(feature, newValue) => this.updateFeature(feature, newValue)}/>
+    
+          <Subtotal selected={this.state.selected} total={total} />
 
         </main>
       </div>
